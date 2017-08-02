@@ -111,3 +111,350 @@ xixi
 　　用正则表达式限制只能输入全角字符： onkeyup="value=value.replace(/[^uFF00-uFFFF]/g,'') "onbeforepaste="clipboardData.setData(''text'',clipboardData.getData(''text'').replace(/[^uFF00-uFFFF]/g,''))"
 　　用正则表达式限制只能输入数字：onkeyup="value=value.replace(/[^d]/g,'') "onbeforepaste= "clipboardData.setData(''text'',clipboardData.getData(''text'').replace(/[^d]/g,''))"
 　　用正则表达式限制只能输入数字和英文：onkeyup="value=value.replace(/[W]/g,'') "onbeforepaste="clipboardData.setData(''text'',clipboardData.getData(''text'').replace(/[^d]/g,''
+
+
+///////
+常用正则表达式大全
+
+一、校验数字的表达式
+
+数字：^[0-9]*$
+n位的数字：^\d{n}$
+至少n位的数字：^\d{n,}$
+m-n位的数字：^\d{m,n}$
+零和非零开头的数字：^(0|[1-9][0-9]*)$
+非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(.[0-9]{1,2})?$
+带1-2位小数的正数或负数：^(\-)?\d+(\.\d{1,2})?$
+正数、负数、和小数：^(\-|\+)?\d+(\.\d+)?$
+有两位小数的正实数：^[0-9]+(.[0-9]{2})?$
+有1~3位小数的正实数：^[0-9]+(.[0-9]{1,3})?$
+非零的正整数：^[1-9]\d*或或([1?9][0?9]?)1,3 或 ^\+?[1-9][0-9]*$
+非零的负整数：^\-[1-9][]0-9″*或或?[1?9]\d?
+非负整数：^\d+或或[1?9]\d?|0
+非正整数：^-[1-9]\d*|0或或((?\d+)|(0+))
+非负浮点数：^\d+(\.\d+)?或或[1?9]\d?\.\d?|0\.\d?[1?9]\d?|0?\.0+|0
+非正浮点数：^((-\d+(\.\d+)?)|(0+(\.0+)?))或或(?([1?9]\d?\.\d?|0\.\d?[1?9]\d?))|0?\.0+|0
+正浮点数：^[1-9]\d*\.\d*|0\.\d*[1-9]\d*或或(([0?9]+\.[0?9]?[1?9][0?9]?)|([0?9]?[1?9][0?9]?\.[0?9]+)|([0?9]?[1?9][0?9]?))
+负浮点数：^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)或或(?(([0?9]+\.[0?9]?[1?9][0?9]?)|([0?9]?[1?9][0?9]?\.[0?9]+)|([0?9]?[1?9][0?9]?)))
+浮点数：^(-?\d+)(\.\d+)?或或??([1?9]\d?\.\d?|0\.\d?[1?9]\d?|0?\.0+|0)
+二、校验字符的表达式
+
+汉字：^[\u4e00-\u9fa5]{0,}$
+英文和数字：^[A-Za-z0-9]+或或[A?Za?z0?9]4,40
+长度为3-20的所有字符：^.{3,20}$
+由26个英文字母组成的字符串：^[A-Za-z]+$
+由26个大写英文字母组成的字符串：^[A-Z]+$
+由26个小写英文字母组成的字符串：^[a-z]+$
+由数字和26个英文字母组成的字符串：^[A-Za-z0-9]+$
+由数字、26个英文字母或者下划线组成的字符串：^\w+或或\w3,20
+中文、英文、数字包括下划线：^[\u4E00-\u9FA5A-Za-z0-9_]+$
+中文、英文、数字但不包括下划线等符号：^[\u4E00-\u9FA5A-Za-z0-9]+或或[\u4E00?\u9FA5A?Za?z0?9]2,20
+可以输入含有^%&',;=?\”等字符：[^%&',;=?\”等字符：[^%&',;=?\x22]+
+禁止输入含有~的字符：[^~\x22]+
+三、特殊需求表达式
+
+Email地址：^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+域名：[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?
+InternetURL：[a-zA-z]+://[^\s]* 或 ^http://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$
+手机号码：^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$
+电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)：^($$\d{3,4}-)|\d{3.4}-)?\d{7,8}$
+国内电话号码(0511-4405222、021-87888822)：\d{3}-\d{8}|\d{4}-\d{7}
+身份证号(15位、18位数字)：^\d{15}|\d{18}$
+短身份证号码(数字、字母x结尾)：^([0-9]){7,18}(x|X)?或或\d8,18|[0?9x]8,18|[0?9X]8,18?
+帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$
+密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：^[a-zA-Z]\w{5,17}$
+强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间)：^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$
+日期格式：^\d{4}-\d{1,2}-\d{1,2}
+一年的12个月(01～09和1～12)：^(0?[1-9]|1[0-2])$
+一个月的31天(01～09和1～31)：^((0?[1-9])|((1|2)[0-9])|30|31)$
+钱的输入格式：
+
+有四种钱的表示形式我们可以接受:”10000.00″ 和 “10,000.00″, 和没有 “分” 的 “10000″ 和 “10,000″：^[1-9][0-9]*$
+这表示任意一个不以0开头的数字，但是，这也意味着一个字符”0″不通过，所以我们采用下面的形式：^(0|[1-9][0-9]*)$
+一个0或者一个不以0开头的数字.我们还可以允许开头有一个负号：^(0|-?[1-9][0-9]*)$
+这表示一个0或者一个可能为负的开头不为0的数字.让用户以0开头好了.把负号的也去掉，因为钱总不能是负的吧.下面我们要加的是说明可能的小数部分：^[0-9]+(.[0-9]+)?$
+必须说明的是，小数点后面至少应该有1位数，所以”10.”是不通过的，但是 “10″ 和 “10.2″ 是通过的：^[0-9]+(.[0-9]{2})?$
+这样我们规定小数点后面必须有两位，如果你认为太苛刻了，可以这样：^[0-9]+(.[0-9]{1,2})?$
+这样就允许用户只写一位小数。下面我们该考虑数字中的逗号了，我们可以这样：^[0-9]{1,3}(,[0-9]{3})*(.[0-9]{1,2})?$
+1到3个数字，后面跟着任意个 逗号+3个数字，逗号成为可选，而不是必须：^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$
+备注：这就是最终结果了，别忘了”+”可以用”*”替代。如果你觉得空字符串也可以接受的话(奇怪，为什么?)最后，别忘了在用函数时去掉去掉那个反斜杠，一般的错误都在这里
+xml文件：^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$
+中文字符的正则表达式：[\u4e00-\u9fa5]
+双字节字符：[^\x00-\xff] (包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))
+空白行的正则表达式：\n\s*\r (可以用来删除空白行)
+HTML标记的正则表达式：<(\S*?)[^>]*>.*?</\1>|<.*? /> (网上流传的版本太糟糕，上面这个也仅仅能部分，对于复杂的嵌套标记依旧无能为力)
+首尾空白字符的正则表达式：^\s*|\s*或或(\s?)|(\s?) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)
+腾讯QQ号：[1-9][0-9]{4,} (腾讯QQ号从10000开始)
+中国邮政编码：[1-9]\d{5}(?!\d) (中国邮政编码为6位数字)
+IP地址：\d+\.\d+\.\d+\.\d+ (提取IP地址时有用)
+IP地址：((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))
+
+
+
+^\d+匹配非负整数（正整数）　匹配整数//匹配非负整数（正整数+0）　//匹配整数\d+(\.\d+)?　　//匹配非负浮点数（正浮点数 + 0）
+^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))匹配正浮点数//匹配正浮点数((?\d+(\.\d+)?)|(0+(\.0+)?))　　//匹配非正浮点数（负浮点数 + 0）
+^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))匹配负浮点数//匹配负浮点数(??\d+)(\.\d+)?　　//匹配浮点数
+^[A-Za-z]+匹配由个英文字母组成的字符串//匹配由26个英文字母组成的字符串[A?Z]+　 //匹配由26个英文字母的大写组成的字符串
+^[a-z]+匹配由个英文字母的小写组成的字符串//匹配由26个英文字母的小写组成的字符串[A?Za?z0?9]+　　//匹配由数字和26个英文字母组成的字符串
+^\w+匹配由数字、个英文字母或者下划线组成的字符串//匹配由数字、26个英文字母或者下划线组成的字符串[\w?]+(\.[\w?]+)?@[\w?]+(\.[\w?]+)+　　　　//匹配email地址
+^[a-zA-z]+://匹配(\w+(-\w+)*)(\.(\w+(-\w+)*))*(\?\S*)?匹配匹配中文字符的正则表达式：匹配双字节字符包括汉字在内：匹配中文字符的正则表达式，有的语言支持直接使用中文字符，如中的：找到获得约条结果，是匹配搜索结果的正则表达式匹配空行的正则表达式：匹配标记的正则表达式：匹配首尾空格的正则表达式：//匹配url匹配中文字符的正则表达式：[\u4e00?\u9fa5]匹配双字节字符(包括汉字在内)：[\x00?\xff]匹配中文字符的正则表达式，有的语言支持直接使用中文字符，如.net中的：@"[找到]?[获得]?[约]?[0?9|0?9,]?条结果"，是匹配google搜索结果的正则表达式匹配空行的正则表达式：\n[\s|]?\r匹配HTML标记的正则表达式：/<(.?)>.?<\/>|<(.?)\/>/匹配首尾空格的正则表达式：(\s?)|(\s?)
+匹配Email地址的正则表达式：\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*
+匹配网址URL的正则表达式：^[a-zA-z]+://(\w+(-\w+)*)(\.(\w+(-\w+)*))*(\?\S*)?匹配帐号是否合法字母开头，允许字节，允许字母数字下划线：匹配帐号是否合法(字母开头，允许5?16字节，允许字母数字下划线)：[a?zA?Z][a?zA?Z0?9]4,15
+匹配国内电话号码：(\d{3}-|\d{4}-)?(\d{8}|\d{7})?
+匹配腾讯QQ号：^[1-9]*[1-9][0-9]*$
+
+下表是元字符及其在正则表达式上下文中的行为的一个完整列表，具体到每个正则表达式符号：
+\ 将下一个字符标记为一个特殊字符、或一个原义字符、或一个后向引用、或一个八进制转义符。
+^ 匹配输入字符串的开始位置。如果设置了 RegExp 对象的Multiline 属性，^ 也匹配 ’\n’ 或 ’\r’ 之后的位置。
+匹配输入字符串的结束位置。如果设置了对象的属性，匹配输入字符串的结束位置。如果设置了RegExp对象的Multiline属性， 也匹配 ’\n’ 或 ’\r’ 之前的位置。
+* 匹配前面的子表达式零次或多次。
++ 匹配前面的子表达式一次或多次。+ 等价于 {1,}。
+? 匹配前面的子表达式零次或一次。? 等价于 {0,1}。
+{n} n 是一个非负整数，匹配确定的n 次。
+{n,} n 是一个非负整数，至少匹配n 次。
+{n,m} m 和 n 均为非负整数，其中n <= m。最少匹配 n 次且最多匹配 m 次。在逗号和两个数之间不能有空格。
+? 当该字符紧跟在任何一个其他限制符 (*, +, ?, {n}, {n,}, {n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。
+. 匹配除 "\n" 之外的任何单个字符。要匹配包括 ’\n’ 在内的任何字符，请使用象 ’[.\n]’ 的模式。
+(pattern) 匹配pattern 并获取这一匹配。 (?:pattern) 匹配pattern 但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。 (?=pattern) 正向预查，在任何匹配 pattern 的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。 (?!pattern) 负向预查，与(?=pattern)作用相反 x|y 匹配 x 或 y。
+[xyz] 字符集合。
+[^xyz] 负值字符集合。
+[a-z] 字符范围，匹配指定范围内的任意字符。
+[^a-z] 负值字符范围，匹配任何不在指定范围内的任意字符。
+\b 匹配一个单词边界，也就是指单词和空格间的位置。
+\B 匹配非单词边界。
+\cx 匹配由x指明的控制字符。
+\d 匹配一个数字字符。等价于 [0-9]。
+\D 匹配一个非数字字符。等价于 [^0-9]。
+\f 匹配一个换页符。等价于 \x0c 和 \cL。
+\n 匹配一个换行符。等价于 \x0a 和 \cJ。
+\r 匹配一个回车符。等价于 \x0d 和 \cM。
+\s 匹配任何空白字符，包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。
+\S 匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。
+\t 匹配一个制表符。等价于 \x09 和 \cI。
+\v 匹配一个垂直制表符。等价于 \x0b 和 \cK。
+\w 匹配包括下划线的任何单词字符。等价于’[A-Za-z0-9_]’。
+\W 匹配任何非单词字符。等价于 ’[^A-Za-z0-9_]’。
+\xn 匹配 n，其中 n 为十六进制转义值。十六进制转义值必须为确定的两个数字长。
+\num 匹配 num，其中num是一个正整数。对所获取的匹配的引用。
+\n 标识一个八进制转义值或一个后向引用。如果 \n 之前至少 n 个获取的子表达式，则 n 为后向引用。否则，如果 n 为八进制数字 (0-7)，则 n 为一个八进制转义值。
+\nm 标识一个八进制转义值或一个后向引用。如果 \nm 之前至少有is preceded by at least nm 个获取得子表达式，则 nm 为后向引用。如果 \nm 之前至少有 n 个获取，则 n 为一个后跟文字 m 的后向引用。如果前面的条件都不满足，若 n 和 m 均为八进制数字 (0-7)，则 \nm 将匹配八进制转义值 nm。 \nml 如果 n 为八进制数字 (0-3)，且 m 和 l 均为八进制数字 (0-7)，则匹配八.
+
+2、字符串格式校验
+表达式： ^\d{3}-\d{2}-\d{4}描述：此正则表达式将会匹配设备号码（美国），格式为匹配举例：不匹配举例：表达式：描述：此正则表达式将会匹配设备号码（美国）(SSN)，格式为NNN?NN?NNNN.匹配举例：333?22?4444|123?45?6789不匹配举例：123456789|SSN表达式：[a?zA?Z]
+描述： 匹配任何单一的大写或小写字母。
+匹配举例： a | B | c
+不匹配举例： 0 | &amp; | AbC
+
+表达式：(\w+)\s+\1
+描述： 此表达式使用反向引用来寻找以空格分开的两个单词中出现一行中出现两次的单词。匹配像 'mandate dated'这样的。
+匹配举例：hubba hubba | mandate dated | an annual
+不匹配举例： may day | gogo | 1212
+
+表达式： ^(\d{4}[- ]){3}\d{4}|\d{16}描述：信用卡卡号校验。检查位四组格式的，以空个或分开的卡号，或者连在一起的。匹配举例：不匹配举例：表达式：描述：信用卡卡号校验。检查16位四组格式的，以空个或?分开的卡号，或者连在一起的。.匹配举例：1234?1234?1234?1234|1234123412341234|1234123412341234不匹配举例：Visa|1234|123?1234?12345表达式：((4\d3)|(5[1?5]\d2)|(6011))??\d4??\d4??\d4|3[4,7]\d13
+描述：匹配主要的信用卡如: Visa (长16, 以 4开头), Mastercard (长 16, 以 51-55), Discover (长 16, 以 6011开头), American Express (长 15, 以 34 或 37开头). 所有的以 16 位数字格式，可以有或没有(-)在四个一组的数字中间。
+匹配：6011-1111-1111-1111 | 5423-1111-1111-1111 | 341111111111111
+不匹配： 4111-111-111-111 | 3411-1111-1111-111 | Visa
+
+表达式： ^\s*[a-zA-Z,\s]+\s*描述：任何大写或小写字母组成，以逗号或空格分开的文本，空格的数量不限。匹配：不匹配：表达式：描述：任何大写或小写字母组成，以逗号或空格分开的文本，空格的数量不限。匹配：Smith,Ed|EdSmith|aBcDeFgH不匹配：a123|AB5|Mr.Ed表达式：\d9[\d|X]
+描述：一个简单的ISBN 校验表达式 –它仅仅校验10位数字构成的，最后一位或许为X的ISBN号。
+匹配：1234123412 | 123412341X
+不匹配：不是一个isbn
+
+表达式：(?:4\d{3})|(?:5[1-5]\d{2})|(?:6011)|(?:3[68]\d{2})|(?:30[012345]\d))[ -]?(\d{4})[ -]?(\d{4})[ -]?(\d{4}|3[4,7]\d{13})描述：信用卡卡号校验。匹配：不匹配：表达式：描述：匹配以引号引起的字符串，使用斜杠的字符串。匹配不匹配：表达式：描述：信用卡卡号校验。匹配：6011567812345678|6011567812345678|6011?5678?1234?5678不匹配：1234567890123456表达式："((")|["(")])+"描述：匹配以引号引起的字符串，使用斜杠的字符串。匹配“"test"|"escape\"quote"|"\""不匹配：test|"test|"test\"表达式：([1?zA?Z0?1@.\s]1,255)
+描述：通用字符串校验表达式，可以防止用户输入恶意字符代码，允许输入email地址，姓名，地址，密码等等。不允许输入斜杠 *等非法字符。
+匹配：email@email.com | My Name | asdf12df
+不匹配： ‘,\*&amp;&lt;&gt; | 1001' string   表达式：^([A-Z]{1}[a-z]{1,})&lt;&gt; | 1001' string   表达式：^([A-Z]{1}[a-z]{1,})|^([A-Z]{1}[a-z]{1,}\040[A-Z]{1}[a-z]{1,})|([A?Z]1[a?z]1,\040[A?Z]1[a?z]1,\040[A?Z]1[a?z]1,)|^描述：匹配首字母大写的以空格分开的字符串，也匹配空字符串。匹配：不匹配：表达式：描述：匹配首字母大写的以空格分开的字符串，也匹配空字符串。匹配：Sacramento|SanFrancisco|SanLuisObispo不匹配：SanFrancisco|SanLuisObispo|Sanfrancisco表达式：(|\s)(00[1?9]|0[1?9]0|0[1?9][1?9]|[1?6]\d2|7[0?6]\d|77[0?2])(??|[\.])([1?9]0|0[1?9]|[1?9][1?9])\3(\d3[1?9]|[1?9]\d3|\d[1?9]\d2|\d2[1?9]\d)(|\s|[;:,!\.\?])
+描述： Incorporated other people's examples; removed extraneous parenthesis on 10/7/04. Currently the SSA site says 772 is the highest AREA number generated (http://www.ssa.gov/employer/highgroup.txt). Old expression was: (^|\s)\d{3}(-?|[\. ])\d{2}\2\d{4}(|\s|[;:,!\.\?]). Looks for either the beginning of a line or whitespace before the beginning of the social security number, then either zero or one hyphen OR one of a period or space, then uses the \3 to reference the value returned in the parenthesis that includes the -?|[\. ] (basically says if the first dash, period, or space is there, then the second one is required; and if the first dash, period, or space is not there, then the second one can't be either), and finally looks for the end of a line, whitespace, or punctuation characters after the social security number. 匹配：123-45-6789 | 123 45 6789 | 123456789 不匹配： 12345-67-890123 | 1234-56-7890 | 123-45-78901   表达式：&lt;[^&gt;]+&gt; 描述：这个表达式用来查找所有的开闭标记，可很好的用于HTML或XML文档的标记清理。我用来清理HTML中的XML标记。我找出所有的标记，然后删除那些非标准的的标记。 匹配： &lt;html&gt; | &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt; | &lt; 不匹配： Any plain old text | http://www.regexlib.com/Add.aspx | xml&gt;   表达式：^[0-9]{1,}(,[0-9]+){0,}|\s|[;:,!\.\?]). Looks for either the beginning of a line or whitespace before the beginning of the social security number, then either zero or one hyphen OR one of a period or space, then uses the \3 to reference the value returned in the parenthesis that includes the -?|[\. ] (basically says if the first dash, period, or space is there, then the second one is required; and if the first dash, period, or space is not there, then the second one can't be either), and finally looks for the end of a line, whitespace, or punctuation characters after the social security number. 匹配：123-45-6789 | 123 45 6789 | 123456789 不匹配： 12345-67-890123 | 1234-56-7890 | 123-45-78901   表达式：&lt;[^&gt;]+&gt; 描述：这个表达式用来查找所有的开闭标记，可很好的用于HTML或XML文档的标记清理。我用来清理HTML中的XML标记。我找出所有的标记，然后删除那些非标准的的标记。 匹配： &lt;html&gt; | &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt; | &lt; 不匹配： Any plain old text | http://www.regexlib.com/Add.aspx | xml&gt;   表达式：^[0-9]{1,}(,[0-9]+){0,}
+描述：它可以校验html页面的格式输入(checkbox, optionbox, selectbox)等，尤其是一次输入多个数字值的时候，例如用户一次选择一个或更多的时候!
+匹配： 1111 | 47,26,2,1,1111,12 | 25,1245,2122,23232
+不匹配： 111, | 1a1,111,1212,23 | 11aa,aaa,asas,asa
+
+表达式：^(?!^(PRN|AUX|CLOCK\|NUL|CON|COM\d|LPT\d|\..?)(\..+)?)[^\x00-\x1f\\?*&lt;&gt;:\;|\&quot;/]+描述：对保留字符进行检查，如 &lt;&gt; 和 &quot;。 匹配：abc 不匹配： PRN   表达式：^([a-z0-9]+([\-a-z0-9]*[a-z0-9]+)?\.){0,}([a-z0-9]+([\-a-z0-9]*[a-z0-9]+)?){1,63}(\.[a-z0-9]{2,7})+描述：对保留字符进行检查，如 &lt;&gt; 和 &quot;。 匹配：abc 不匹配： PRN   表达式：^([a-z0-9]+([\-a-z0-9]*[a-z0-9]+)?\.){0,}([a-z0-9]+([\-a-z0-9]*[a-z0-9]+)?){1,63}(\.[a-z0-9]{2,7})+
+描述： [注释:这个域名通过 Macromedia's ColdFusion MX测试.我肯定它工作于其他正则引擎时还需要额外的信息。]在找了一些正则表达式后，我发现没有一个可以完全的可靠的处理子域名或者顶级域名的正则表达式。因此，我写了一个，然后测试它。它不匹配如： -.domain.com, -a.domain.com, -domain.com, domain-.com, 以及在顶级域名前的字符数超过63个的域名。匹配: a.domain.com, a-a.domain.com, a--a.domain.com, a--defg.com, domain.co.uk.
+匹配： 800-med-alert.com | jump.to | archive-3.www.regexlib.com
+不匹配： example | a-.domain.com | http://regexlib.com/
+
+表达式：^(?![0-9]{6})[0-9a-zA-Z]{6}描述：匹配一个六位的密码，并且其中至少含有一个字母。 匹配：123a12 | a12345 | aaaaaa 不匹配： 111111   3、URI验证   资源定位符 Windows文件名 表达式： \A([A-Za-z0-9'~`!@#描述：匹配一个六位的密码，并且其中至少含有一个字母。 匹配：123a12 | a12345 | aaaaaa 不匹配： 111111   3、URI验证   资源定位符 Windows文件名 表达式： \A([A-Za-z0-9'~`!@#%&amp;^_+={},\-
+\;])+?([ A-Za-z0-9'~` !@# %&amp;^_+={},\-
+\;]*?)([A-Za-z0-9'~`!@#
+匹配：
+zeropanic.co.uk | z2.co.uk | 1-1.org.uk
+不匹配：
+zeropanic.com | z.co.uk | zz.co.uk
+
+文件夹名：
+^[^\\\/\?\*\&quot;\'\&gt;\&lt;\:\|]*匹配：不匹配：美元金额：表达式：匹配：321321321dasds不匹配：/\3fsdfsd美元金额：表达式：($)?(([1?9]\d0,2(\d3)?)|([1?9]\d?)|(0))(\.\d2)?
+匹配：
+1,234,567.89|1234567.89|0.00
+不匹配：
+1,2345,67.89|1234,345,678.0
+
+超级链接：
+link="(?<link>((.|\n)??))"
+(?<text>((.|\n)*?))
+\/link
+
+匹配：
+[link="http://www.yahoo.com"]Yahoo[/link]
+不匹配：
+[link]http://www.yahoo.com[/link] | [link=http://www.yahoo.com]Yahoo[/link]
+
+邮箱链接：
+表达式：
+((mailto\:|(news|(ht|f)tp(s?))\://){1}\S+)
+匹配：
+http://www.aspemporium.com | mailto:dominionx@hotmail.com | ftp://ftp.test.com
+不匹配：
+www.aspemporium.com | dominionx@hotmail.com | bloggs
+
+长文件名校验（Windows标准）
+表达式
+^[^\\\./:\*\?\"<>\|]{1}[^\\/:\*\?\"<>\|]{0,254}匹配：不匹配：匹配所有的顶级域名（根据的的规范）表达式：匹配：所有的不匹配：不存在的域名表达式：匹配：abcd.jpg|ab239.abcdef12983298|a....23498不匹配：.abcde.jpg|abcde?.jpg|c:\abcde.jpg匹配所有的顶级域名（根据IANA的2007?77?14的规范）表达式：(a(?:[cdefgilmnoqrstuwxz]|ero|(?:rp|si)a)|b(?:[abdefghijmnorstvwyz]iz)|c(?:[acdfghiklmnoruvxyz]|at|o(?:m|op))|d[ejkmoz]|e(?:[ceghrstu]|du)|f[ijkmor]|g(?:[abdefghilmnpqrstuwy]|ov)|h[kmnrtu]|i(?:[delmnoqrst]|n(?:fo|t))|j(?:[emop]|obs)|k[eghimnprwyz]|l[abcikrstuvy]|m(?:[acdeghklmnopqrstuvwxyz]|il|obi|useum)|n(?:[acefgilopruz]|ame|et)|o(?:m|rg)|p(?:[aefghklmnrstwy]|ro)|qa|r[eosuw]|s[abcdeghijklmnortuvyz]|t(?:[cdfghjklmnoprtvwz]|(?:rav)?el)|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw])匹配：所有的ccTLDs(Country?CodeTop?LevelDomains)|allgTLDs(GenericTop?LevelDomains)|.arpa不匹配：不存在的T.L.D.s域名表达式：([a?zA?Z0?9]([a?zA?Z0?9\-]0,61[a?zA?Z0?9])?\.)+[a?zA?Z]2,6
+匹配：
+regexlib.com | this.is.a.museum | 3com.com
+不匹配：
+notadomain-.com | helloworld.c | .oops.org
+
+完整的和压缩的IPv6地址
+表达式：
+^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))匹配：    FEDC:BA98:7654:3210:FEDC:BA98:7654:3210 | 1080::8:800:200C:417A | ::FFFF:129.144.52.38 不匹配：       FEDC::7654:3210::BA98:7654:3210 | FEDC:BA98:7654:3210 | ::   网络协议： 表达式：       (\s|\n|^)(\w+://[^\s\n]+) 匹配： http://www.acme.com | ftp://ftp.acme.com/hede | gopher://asdfasd.asdfasdf 不匹配： &lt;a href=&quot;http://acme.com&quot;&gt;http://www.acme.com&lt;/a&gt; | &lt;br&gt;http://www.acme.     简单的匹配10进制IP地址，但不验证地址 表达式： [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} 匹配： 192.168.1.1 | 10.2.234.1 | 66.129.71.122 不匹配： 192.168.1 | 10.2.1234.1 | 66 129 71 122   域名或主机名 表达式： ^[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)匹配：    FEDC:BA98:7654:3210:FEDC:BA98:7654:3210 | 1080::8:800:200C:417A | ::FFFF:129.144.52.38 不匹配：       FEDC::7654:3210::BA98:7654:3210 | FEDC:BA98:7654:3210 | ::   网络协议： 表达式：       (\s|\n|^)(\w+://[^\s\n]+) 匹配： http://www.acme.com | ftp://ftp.acme.com/hede | gopher://asdfasd.asdfasdf 不匹配： &lt;a href=&quot;http://acme.com&quot;&gt;http://www.acme.com&lt;/a&gt; | &lt;br&gt;http://www.acme.     简单的匹配10进制IP地址，但不验证地址 表达式： [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3} 匹配： 192.168.1.1 | 10.2.234.1 | 66.129.71.122 不匹配： 192.168.1 | 10.2.1234.1 | 66 129 71 122   域名或主机名 表达式： ^[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)
+匹配：
+3SquareBand.com | asp.NET | army.mil
+不匹配：
+SquareBand.com | asp/dot.Net | army.military     Windows路径和无效UNC路径 表达式： ^([a-zA-Z]\:) (\\{1}| ((\\{1}) [^\\] ([^/:*?&lt;&gt;&quot;|]*(?&lt;![ ])))+)SquareBand.com | asp/dot.Net | army.military     Windows路径和无效UNC路径 表达式： ^([a-zA-Z]\:) (\\{1}| ((\\{1}) [^\\] ([^/:*?&lt;&gt;&quot;|]*(?&lt;![ ])))+)
+匹配：
+c:\34\445\546\3.htm | C:\
+不匹配：
+\\qaz | c:\Ram&lt;\ | C: or c:\\ or \\
+
+
+文件扩展名
+表达式：
+(?!\.)[a-z]{1,4}匹配： file.jpg | file.c | file.gif 不匹配：       file.34     域名地址：    ^(((ht|f)tp(s?))\://)?((([a-zA-Z0-9_\-]{2,}\.)+[a-zA-Z]{2,})|((?:(?:25[0-5]|2[0-4]\d|[01]\d\d|\d?\d)(?(\.?\d)\.)){4}))(:[a-zA-Z0-9]+)?(/[a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~]*)?匹配： file.jpg | file.c | file.gif 不匹配：       file.34     域名地址：    ^(((ht|f)tp(s?))\://)?((([a-zA-Z0-9_\-]{2,}\.)+[a-zA-Z]{2,})|((?:(?:25[0-5]|2[0-4]\d|[01]\d\d|\d?\d)(?(\.?\d)\.)){4}))(:[a-zA-Z0-9]+)?(/[a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~]*)?
+匹配：
+this.com | https://this.com:8080/this/this.htm | ftp://255.255.255.255/
+不匹配：
+.this.com | https://this.com:/ | ftps://255.256.255.255/
+
+
+匹配URL字符串
+表达式：
+\b([\d\w\.\/\+\-\?\:]*)((ht|f)tp(s|)\:\/\/|[\d\d\d|\d\d]\.[\d\d\d|\d\d]\.|www\.|\.tv|\.ac|\.com|\.edu|\.gov|\.int|\.mil|\.net|\.org|\.biz|\.info|\.name|\.pro|\.museum|\.co)([\d\w\.\/\%\+\-\=\&amp;\?\:\\\&quot;\'\,\|\~\;]*)\b
+匹配：
+http://210.50.2.215/sd_new/WebBuilder.cgi?RegID=7449046&amp;First=Ok&amp;Upt=Ok&amp;EditPage=3&amp;S
+不匹配：
+Hmmmm
+
+带端口的IP地址
+表达式：
+^((?:2[0-5]{2}|1\d{2}|[1-9]\d|[1-9])\.(?:(?:2[0-5]{2}|1\d{2}|[1-9]\d|\d)\.){2}(?:2[0-5]{2}|1\d{2}|[1-9]\d|\d)):(\d|[1-9]\d|[1-9]\d{2,3}|[1-5]\d{4}|6[0-4]\d{3}|654\d{2}|655[0-2]\d|6553[0-5])匹配：不匹配：域名表达式：匹配：127.0.0.1:80|255.255.255.0:21|1.0.0.0:1不匹配：0.0.0.0:1|256.1.1.1:20|127.0.0.1:65536域名表达式：[a?zA?Z0?9]+([a?zA?Z0?9\-\.]+)?\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)
+匹配：
+my.domain.com | regexlib.com | big-reg.com
+不匹配：
+.mydomain.com | regexlib.comm | -bigreg.com
+
+网络协议地址
+表达式：^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\#\=~])*#\=~])*
+匹配：
+http://www.blah.com/~joe | ftp://ftp.blah.co.uk:2828/blah%20blah.gif | https://blah.gov/blah-blah.as
+不匹配：
+www.blah.com | http://www.blah&quot;blah.com/I have spaces! | ftp://blah_underscore/[nope]
+
+网络地址：
+(?:(?<protocol>http(?:s?)|ftp)(?:\:\/\/)) (?:(?<usrpwd>\w+\:\w+)(?:\@))? (?<domain>[^/\r\n\:]+)? (?<port>\:\d+)? (?<path>(?:\/.*)*\/)? (?<filename>.*?\.(?<ext>\w{2,4}))? (?<qrystr>\??(?:\w+\=[^\#]+)(?:\&?\w+\=\w+)*)* (?<bkmrk>\#.*)?
+匹配：
+https://192.168.0.2:80/users/~fname.lname/file.ext | ftp://user1:pwd@www.domain.com | http://www.dom
+不匹配：
+www.domain.com | user1:pwd@domain.com | 192.168.0.2/folder/file.ext
+
+IP地址：
+表达式：
+(^\d{3}\x2E\d{3}\x2E\d{3}\x2D\d{2}) 匹配：    123.123.123-12 不匹配： 123.123.103.32 | 123 123 123 12 | sa3.332.322-12   URL匹配（有无协议均可） ([\d\w-.]+?\.(a[cdefgilmnoqrstuwz]|b[abdefghijmnorstvwyz]|c[acdfghiklmnoruvxyz]|d[ejkmnoz]|e[ceghrst]|f[ijkmnor]|g[abdefghilmnpqrstuwy]|h[kmnrtu]|i[delmnoqrst]|j[emop]|k[eghimnprwyz]|l[abcikrstuvy]|m[acdghklmnopqrstuvwxyz]|n[acefgilopruz]|om|p[aefghklmnrstwy]|qa|r[eouw]|s[abcdeghijklmnortuvyz]|t[cdfghjkmnoprtvwz]|u[augkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]|aero|arpa|biz|com|coop|edu|info|int|gov|mil|museum|name|net|org|pro)(\b|\W(?<!&|=)(?!\.\s|\.{3}).*?))(\s|) 匹配：    123.123.123-12 不匹配： 123.123.103.32 | 123 123 123 12 | sa3.332.322-12   URL匹配（有无协议均可） ([\d\w-.]+?\.(a[cdefgilmnoqrstuwz]|b[abdefghijmnorstvwyz]|c[acdfghiklmnoruvxyz]|d[ejkmnoz]|e[ceghrst]|f[ijkmnor]|g[abdefghilmnpqrstuwy]|h[kmnrtu]|i[delmnoqrst]|j[emop]|k[eghimnprwyz]|l[abcikrstuvy]|m[acdghklmnopqrstuvwxyz]|n[acefgilopruz]|om|p[aefghklmnrstwy]|qa|r[eouw]|s[abcdeghijklmnortuvyz]|t[cdfghjkmnoprtvwz]|u[augkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]|aero|arpa|biz|com|coop|edu|info|int|gov|mil|museum|name|net|org|pro)(\b|\W(?<!&|=)(?!\.\s|\.{3}).*?))(\s|)
+匹配：
+http://www.website.com/index.html | www.website.com | website.com
+
+域名匹配：
+^[a-zA-Z0-9]+([a-zA-Z0-9\-\.]+)?\.(aero|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly| ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk| pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr| st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zr|zw|AERO|BIZ|COM|COOP|EDU|GOV|INFO|INT|MIL|MUSEUM|NAME|NET|ORG|AC|
+匹配：
+mydomain.com | my-domain.info | mydomain.aero
+不匹配：
+-mydomain.com | mydomain.aaa | .mydomain.com
+
+文件路径（支持空格文件名）
+^(([a-zA-Z]:)|(\\{2}\w+)\?)((\w[\w]?.?))+\.(txt|TXT)
+匹配：
+C:\Documents and Settings\roman.lukyanenko\Desktop\stuff\b_card2.txt
+不匹配：
+C:\file.doc
+
+网址+端口：
+^(((ht|f)tp(s?))\://)?(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\.(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)(\:[0-9]+)*(/(|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*
+匹配：
+www.blah.com:8103 | www.blah.com/blah.asp?sort=ASC | www.blah.com/blah.htm#blah
+不匹配：
+www.state.ga | http://www.blah.ru
+
+特别匹配：
+表达式：
+^DOMAIN\\\w+匹配：不匹配：地址和端口表达式：匹配：DOMAIN\ssmith|DOMAIN\a|DOMAIN\username不匹配：ssmith|username|DOMAIN IPV4地址和端口表达式：((?:2[0?5]2|1\d2|[1?9]\d|[1?9])\.(?:(?:2[0?5]2|1\d2|[1?9]\d|\d)\.)2(?:2[0?5]2|1\d2|[1?9]\d|\d)):(\d|[1?9]\d|[1?9]\d2,3|[1?5]\d4|6[0?4]\d3|654\d2|655[0?2]\d|6553[0?5])
+匹配：
+127.0.0.1:80 | 255.255.255.0:21 | 1.0.0.0:1
+不匹配：
+0.0.0.0:1 | 256.1.1.1:20 | 127.0.0.1:65536
+
+URL检查
+表达式：
+^(ht|f)tp(s?)\:\/\/[a-zA-Z0-9\-\._]+(\.[a-zA-Z0-9\-\._]+){2,}(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\#_]*)?#_]*)?
+匹配：
+http://www.thedaddy.org | http://forum.thedaddy.org/index.html | ftp://hows.it.going_buddy/checkit/o
+不匹配：
+www.thedaddy.org | http://hello | ftp://check.it
+
+jpg/JPG文件路径匹配
+表达式：
+^(([a-zA-Z]:)|(\\{2}\w+)\?)((\w[\w]?.?))+\.(jpg|JPG)
+匹配：
+C:\Documents and Settings\roman.lukyanenko\Desktop\stuff\b_card2.jpg | C:\b_card.jpg | \\network\fol
+不匹配：
+C:\file.xls
+
+URL链接串检查
+表达式：
+^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.[a-zA-Z]{2,4})(\:[0-9]+)?(/[^/][a-zA-Z0-9\.\,\?\'\\/\+&amp;%\$#\=~_\-@]*)*\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.[a-zA-Z]{2,4})(\:[0-9]+)?(/[^/][a-zA-Z0-9\.\,\?\'\\/\+&amp;%\$#\=~_\-@]*)*
+匹配：
+http://www.sysrage.net | https://64.81.85.161/site/file.PHP?cow=moo's | ftp://user:pass@host.com:123
+不匹配：
+sysrage.net
+
+
+文件路径检查
+表达式：
+^([a-zA-Z]\:)(\\[^\\/:*?<>"|]*(?<![ ]))*(\.[a-zA-Z]{2,6})$
+匹配：
+C:\di___r\fi_sysle.txt | c:\dir\filename.txt
+不匹配：
+c:\dir\file?name.txt
+
+邮箱地址等检查
+表达式：
+(mailto\:|(news|(ht|f)tp(s?))\://)(([^[:space:]]+)|([^[:space:]]+)( #([^#]+)#)?)
+匹配：
+http://www.domain.com | http://www.domain.com/index%20page.htm #linktext# | mailto://user@domai
+不匹配：
+&lt;a href=&quot;http://www.domain.com&quot;&gt;real html link&lt;/a&gt; | http://www.without_space_
+
+URL串格式检查
+表达式：
+^(?=[^&])(?:(?<scheme>[^:/?#]+):)?(?://(?<authority>[^/?#]*))?(?<path>[^?#]*)(?:\?(?<query>[^#]*))?(?:#(?<fragment>.*))?
+匹配：
+http://regexlib.com/REDetails.aspx?regexp_id=x#Details
+不匹配：
+&
+
+文档路径
+表达式：
+^([a-zA-Z]\:|\\)\\([^\\]+\\)*[^\/:*?"<>|]+\.htm(l)?$
+匹配：
+x:\test\testing.htm | x:\test\test#$ ing.html | \\test\testing.html
+不匹配：
+x:\test\test/ing.htm | x:\test\test*.htm | \\test?&lt;.htm
